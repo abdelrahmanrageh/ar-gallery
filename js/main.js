@@ -9,6 +9,6 @@ window.onscroll = function() {
         document.getElementById("top").classList.add("show");
     } 
     else {
-        document.getElementById("top").classList.remove("show");
+        document.getElementById("top").classList.remove("show to school");
     }
 }
