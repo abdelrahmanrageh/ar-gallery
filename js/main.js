@@ -12,3 +12,6 @@ window.onscroll = function() {
         document.getElementById("top").classList.remove("show to school");
     }
 }
+
+let year = document.querySelector('.year');
+year.innerHtml = new Date().getFullYear();
