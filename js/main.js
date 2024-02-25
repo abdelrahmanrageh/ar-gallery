@@ -13,5 +13,4 @@ window.onscroll = function() {
     }
 }
 
-let year = document.querySelector('.year');
-year.innerHtml = new Date().getFullYear();
+document.querySelector('.year').innerHTML = new Date().getFullYear();
