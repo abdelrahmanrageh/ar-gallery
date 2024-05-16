@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://abdelrahmanrageh.github.io/AR-Gallery",
+  "homepage": "https://abdelrahmanrageh.github.io/ar-gallery",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
