@@ -1,0 +1,16 @@
+.shape{
+    display: flex;
+    align-items: center;
+    /* padding: 10px; */
+    margin-left: -50px;
+    height: 2px;
+    width: 100%;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    cursor: pointer;
+    margin: auto;
+    margin-top: 20px;
+    margin-left: 6px;
+    border-radius: 8px;
+    /* float: left; */
+}
