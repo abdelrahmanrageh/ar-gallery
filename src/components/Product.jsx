@@ -3,21 +3,26 @@ import { addTocart } from "../rtk/slices/shoppingCartSlice";
 import { useDispatch } from "react-redux";
 
 function Product({ product }) {
-    
-    
-    const dispatch = useDispatch();
-    return (
-        <>
-            {/* {notification && <div className="notification">Added to cart</div>}   */}
-            <div className=" relative flex snap-center min-w-52 max-w-52 fxs:min-w-full shadow-sm rounded-md flex-col m-2 transition-all dark:text-teal-50  ring-slate-100 dark:border-slate-800 ring-2 dark:ring-slate-700 fxs:flex-row ">      
-                <Link className="h-56 fs:h-44 bg-white p-6 flex items-center rounded-t-md fxs:rounded-l-md fxs:rounded-r-none fxs:w-1/2" to={`/products/${product.id}` } >
-                    <img src={product.image} 
-                        alt=""
-                        className="product-img  max-h-full m-auto " />
-                </Link>
-                <div className="flex flex-col justify-center fxs:min-w-1/2 fxs:mx-auto">
-                    <div className="name text-sm text-left my-2 mb-2 h-10 mx-5 overflow-hidden fxs:w-32 fxs:mx-3">{product.title}</div>
-                    {/* <div className="mx-0 mb-3">
+  const dispatch = useDispatch();
+  return (
+    <>
+      {/* {notification && <div className="notification">Added to cart</div>}   */}
+      <div className=" relative bg-white dark:bg-gray-800 flex snap-center min-w-52 max-w-52 fxs:min-w-full shadow-sm rounded-md flex-col m-2 transition-all dark:text-teal-50  ring-slate-100 dark:border-slate-800 ring-2 dark:ring-slate-700 fxs:flex-row ">
+        <Link
+          className="h-56 fs:h-44 bg-white  flex items-center rounded-t-md fxs:rounded-l-md fxs:rounded-r-none fxs:w-1/2"
+          to={`/products/${product._id}`}
+        >
+          <img
+            src={product.images[0]}
+            alt=""
+            className="product-img my-0 h-full  mx-auto  rounded-t-md fxs:rounded-l-md fxs:rounded-r-none"
+          />
+        </Link>
+        <div className="flex flex-col justify-center fxs:min-w-1/2 fxs:mx-auto">
+          <div className="name text-sm text-left my-2 mb-2 h-10 mx-5 overflow-hidden fxs:w-32 fxs:mx-3">
+            {product.title}
+          </div>
+          {/* <div className="mx-0 mb-3">
                         {[0, 1, 2, 3, 4].map((rating , i) => (
                             Math.round(product.rating.rate) > rating ?
                             <svg key={i} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-6 inline text-white">
@@ -29,24 +34,28 @@ function Product({ product }) {
                         )) 
                         } 
                     </div> */}
-                    <div className="flex justify-between  items-center">
-                        <div className="price text-xl text-left mx-5 my-2 mb-1 inline fxs:mx-3">${product.price} </div>
-                        {/* <FaCartArrowDown
+          <div className="flex justify-between  items-center">
+            <div className="price text-xl text-left mx-5 my-2 mb-1 inline fxs:mx-3">
+              {product.price} <small>EGP</small>
+            </div>
+            {/* <FaCartArrowDown
                             className="w-32 h-8 inline cursor-pointer text-teal-50 hover:text-sky-600 bg-sky-500 px-2 py-2 rounded-lg"
                             onClick={() => dispatch(addTocart(product))}
                         /> */}
-                    </div>
-                    <button
-                        onClick={() => {
-                            dispatch(addTocart(product));
-                            // pushNotification();
-                        }}
-                        className="add-to-cart rounded-md text-sm py-2 mt-2 fxs:mb-0 fxs:mx-3 mb-5 text-slate-600 ring-2 ring-slate-100 mx-5 hover:ring-sky-500 hover:shadow-md dark:border-none dark:text-teal-50 dark:ring-slate-600 fs:text-sm ">Add to cart
-                    </button>
-                </div>
-            </div>
-        </>
-    )
+          </div>
+          <button
+            onClick={() => {
+              dispatch(addTocart(product));
+              // pushNotification();
+            }}
+            className="add-to-cart rounded-md text-sm py-2 mt-2 fxs:mb-0 fxs:mx-3 mb-5 text-slate-600 ring-2 ring-slate-100 mx-5 hover:ring-sky-500 hover:shadow-md dark:border-none dark:text-teal-50 dark:ring-slate-600 fs:text-sm "
+          >
+            Add to cart
+          </button>
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default Product; 
+export default Product;

@@ -8,20 +8,20 @@ export const shoppingCartSlice = createSlice({
             state.openShoppingCart = !state.openShoppingCart;
         },
         addTocart: (state, action) => {
-            const { id, title, price, image, } = action.payload;
-            if (state.cart[id]) {
-                state.cart[id].quantity += 1;
+            const { _id, title, price, images, } = action.payload;
+            if (state.cart[_id]) {
+                state.cart[_id].quantity += 1;
             } else {
-                state.cart[id] = { id , title, price, quantity: 1 ,image};
+                state.cart[_id] = { _id , title, price, quantity: 1 ,images};
             }
         },
         removeFromCart: (state, action) => {
-            const id = action.payload;
-            if (state.cart[id]) {
-                if (state.cart[id].quantity > 1) {
-                    state.cart[id].quantity -= 1;
+            const _id = action.payload;
+            if (state.cart[_id]) {
+                if (state.cart[_id].quantity > 1) {
+                    state.cart[_id].quantity -= 1;
                 } else {
-                    delete state.cart[id];
+                    delete state.cart[_id];
                 }
             }
         },
