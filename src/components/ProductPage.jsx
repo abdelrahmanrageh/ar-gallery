@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { StarIcon } from "@heroicons/react/20/solid";
+// import { StarIcon } from  "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../rtk/slices/productsSlice";
 import { addTocart } from "../rtk/slices/shoppingCartSlice";
+import { StarIcon } from "@heroicons/react/outline";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -15,13 +16,18 @@ export default function ProductPage() {
   const product = products.filter((product) => product._id === productId)[0];
   const dispatch = useDispatch();
 
+  
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
-
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [product]);
+  
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -72,7 +78,7 @@ export default function ProductPage() {
                 </div>
               </div>
               <div>
-                <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+                <div className="lg:col-span-2 lg:border-r lg:border-gray-200 dark:lg:border-gray-700 lg:pr-8">
                   <h1 className="text-2xl font-bold tracking-tight dark:text-teal-50 text-gray-900 sm:text-3xl">
                     {product.title}
                   </h1>
@@ -110,7 +116,7 @@ export default function ProductPage() {
                     </div>
                   </div>
 
-                  <div className="md:py-10 pt-3 pb-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
+                  <div className="md:py-10 pt-3 pb-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 dark:lg:border-gray-700 lg:pb-16 lg:pr-8 lg:pt-6">
                     {/* Description and details */}
                     <div>
                       <h3 className="sr-only text-gray-900 dark:text-teal-50">
@@ -126,7 +132,7 @@ export default function ProductPage() {
                   </div>
 
                   {/* Add to cart */}
-                  <form className="mt-0">
+                  <form className="mt-0 md:mt-10">
                     <button
                       onClick={(e) => {
                         e.preventDefault();

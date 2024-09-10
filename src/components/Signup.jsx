@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
-import logo from "../assets/ar.png";
-import { useState } from "react";
-
+import { Link, useNavigate } from "react-router-dom";
+import {  useState } from "react";
+import { setLoggedIn, setUser } from "../rtk/slices/userSlice";
+import { useDispatch } from "react-redux";
+import { squircle } from "ldrs";
+squircle.register();
 
 function Signup() {
   const [email, setEmail] = useState("");
@@ -10,8 +12,50 @@ function Signup() {
   const [username, setName] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
+  
+  // useEffect(() => {
+  //   authLogin();
+  // }, []);
+
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     navigate("/");
+  //   }
+  // }, [loggedIn, navigate]);
+  
+  // const authLogin = async () => {
+  //   const res = await fetch("http://localhost:5000/users/auth", {
+  //     method: "GET",
+  //     credentials: "include",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     }
+      
+  //   });
+  //   if (res.ok) {
+  //     const user = await res.json();
+  //     if (user.exp < Date.now() / 1000) {
+  //       setLoggedIn(false);
+  //     } else {
+  //       setLoggedIn(true);
+  //     }
+  //   }
+  // };
+  
 
   const handleSubmit = async (e) => { 
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess("");
+    if (!username || !email) {
+      setError("Please fill all fields");
+      return;
+    }
     if (password !== confirmPassword) { 
       setError("Passwords do not match");
       return;
@@ -20,13 +64,8 @@ function Signup() {
       setError("Password must be at least 8 characters");
       return;
     }
-    if (!username || !email) {
-      setError("Please fill all fields");
-      return;
-    }
-    e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/users/signup", {
+      const res = await fetch("https://ar-backend-0833.onrender.com/users/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,7 +74,13 @@ function Signup() {
       });
       if (res.ok) {
         setSuccess("Account created successfully");
+        // localStorage.setItem("emailForConfirmation", email);
         setError("");
+        const user = await res.json();
+        dispatch(setUser(user));
+        dispatch(setLoggedIn(true));
+        
+        navigate("/confirm-email");
       }
       else if (res.status === 409) {
         setError("User already exists");
@@ -43,14 +88,14 @@ function Signup() {
       }
       
     }catch(err){
-      console.log(err);
-      setError("An error occurred");
+      setError(err.message);
       setSuccess("");
     }
+    setLoading(false);
   }
   return (
-    <section className="h-full ">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen mt-10 lg:py-0">
+    <section className="h-full">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen mt-10 lg:py-0">
         {/* <Link
           to="/"
           className="flex items-center l mb-4 text-2xl font-semibold text-gray-900 dark:text-white"
@@ -66,14 +111,14 @@ function Signup() {
             <form className="space-y-4 md:space-y-6" action="#">
               <div>
                 <label
-                  htmlFor="username"
+                  htmlFor="name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Username
                 </label>
                 <input
                   type="text"
-                  name="username"
+                  name="name"
                   onChange={(e) => setName(e.target.value)}
                   id="username"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -167,10 +212,23 @@ function Signup() {
               </div> */}
               <button
                 type="button"
+                disabled={loading}
                 onClick={handleSubmit}
                 className="w-full text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-sky-800"
               >
-                Create an account
+                {loading ? (
+                    <l-squircle
+                      size="25"
+                      stroke="3"
+                      stroke-length="0.15"
+                      bg-opacity="0.1"
+                      speed="0.9"
+                      color="white"
+                    ></l-squircle>
+                  ) : (
+                    " Create an account"
+                  )}
+               
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account?{" "}

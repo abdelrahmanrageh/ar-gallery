@@ -1,6 +1,5 @@
 import { Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   toggleCart,
   removeFromCart,
@@ -41,7 +40,6 @@ export default function ShoppingCart() {
             <div className="fixed inset-0 bg-gray-500 dark:bg-gray-800 bg-opacity-75 dark:bg-opacity-75 transition-opacity" />
           </Transition.Child>
 
-          
           <div className="fixed inset-0 overflow-hidden ">
             <div className="absolute inset-0 overflow-hidden">
               <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
@@ -69,10 +67,20 @@ export default function ShoppingCart() {
                             >
                               <span className="absolute -inset-0.5" />
                               <span className="sr-only">Close panel</span>
-                              <XMarkIcon
-                                className="h-6 w-6"
-                                aria-hidden="true"
-                              />
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="size-6"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M6 18 18 6M6 6l12 12"
+                                />
+                              </svg>
                             </button>
                           </div>
                         </div>
@@ -84,7 +92,10 @@ export default function ShoppingCart() {
                               className="-my-6 divide-y divide-gray-200"
                             >
                               {Object.values(cart).map((product, i) => (
-                                <li key={i} className="flex py-6   !border-b !border-gray-100   dark:!border-gray-700">
+                                <li
+                                  key={i}
+                                  className="flex py-6   !border-b !border-gray-100   dark:!border-gray-700"
+                                >
                                   <div className="h-24 w-24 flex items-center flex-shrink-0 overflow-hidden rounded-md border border-gray-200 dark:border-gray-700">
                                     <img
                                       src={product.images[0]}
@@ -141,7 +152,9 @@ export default function ShoppingCart() {
                                           type="button"
                                           className="font-medium text-sky-600 hover:text-sky-500 dark:text-sky-500"
                                           onClick={() =>
-                                            dispatch(removeFromCart(product._id))
+                                            dispatch(
+                                              removeFromCart(product._id)
+                                            )
                                           }
                                         >
                                           Remove

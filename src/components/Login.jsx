@@ -1,45 +1,47 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/ar.png";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { authLogin } from "../rtk/slices/userSlice";
+import { squircle } from "ldrs";
+squircle.register();
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const loggedIn = useSelector((state) => state.user.loggedIn);
+  const params = new URLSearchParams(window.location.search);
+  const [loading, setLoading] = useState(false);
+
+  if (loggedIn) {
+    dispatch(authLogin()); // Call the async action
+  }
+
   useEffect(() => {
-    authLogin();
-  }, []);
+    if (loggedIn) dispatch(authLogin()); // Call the async action
+  }, [dispatch, loggedIn]);
 
   useEffect(() => {
     if (loggedIn) {
-      navigate("/");
+      if (params.get("redirect")) {
+        navigate("/");
+        navigate(params.get("redirect"));
+      } else navigate("/");
     }
   }, [loggedIn, navigate]);
 
-  const authLogin = async () => {
-    const res = await fetch("https://ar-backend-0833.onrender.com/users/auth", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      }
-      
-    });
-    if (res.ok) {
-      const user = await res.json();
-      if (user.exp < Date.now() / 1000) {
-        setLoggedIn(false);
-      } else {
-        setLoggedIn(true);
-      }
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    if (!email || !password) {
+      setError("Please fill all fields");
+      setLoading(false);
+      return;
+    }
     const res = await fetch("https://ar-backend-0833.onrender.com/users/login", {
       method: "POST",
       headers: {
@@ -49,34 +51,26 @@ function Login() {
       body: JSON.stringify({ email, password }),
     });
     if (res.ok) {
-      setSuccess("Logged in successfully");
+      dispatch(authLogin()); // Call the async action
       setError("");
-      authLogin();
-    } else if (res.status === 401) {
-      setError("Invalid credentials");
+      // authLogin();
+    } else if (res.status === 401 || res.status === 400 || res.status === 404) {
+      setError("Email or password is incorrect");
       setSuccess("");
     } else {
       setError("An error occurred");
       setSuccess("");
     }
+    setLoading(false);
   };
 
   // useEffect(() => {
   //   console.log(email, password);
   // }, [email, password]);
 
-  const fetchUserData = async () => {
-    fetch("https://ar-backend-0833.onrender.com/users/user/66d6133c5d71b839b95467e3", {
-      method: "GET",
-      credentials: "include",
-    }).then((res) => {
-      console.log(res.json());
-    });
-  };
-
   return (
     <>
-      <section className="bg-gray-50 dark:bg-gray-900 ">
+      <section className="bg-gray-50 dark:bg-transparent">
         <div className="flex flex-col items-center justify-center h-screen px-6 py-8 mx-auto md:h-screen lg:py-0">
           <Link
             to="/"
@@ -125,7 +119,7 @@ function Login() {
                     required=""
                   />
                 </div>
-                <div className="flex items-center justify-between">
+                {/* <div className="flex items-center justify-between">
                   <div className="flex items-start">
                     <div className="flex items-center h-5">
                       <input
@@ -151,7 +145,7 @@ function Login() {
                   >
                     Forgot password?
                   </a>
-                </div>
+                </div> */}
                 {error && (
                   <p className="text-sm text-red-500 !mt-2 block dark:text-red-400">
                     {error}
@@ -164,10 +158,25 @@ function Login() {
                 )}
                 <button
                   type="button"
+                  disabled={loading}
                   onClick={handleSubmit}
-                  className="w-full text-white bg-sky-500 hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-sky-800"
+                  className={`${
+                    loading && "opacity-50 pointer-events-none"
+                  } w-full text-white bg-sky-500 hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-sky-800`}
                 >
-                  Sign in
+                 
+                  {loading ? (
+                    <l-squircle
+                      size="25"
+                      stroke="3"
+                      stroke-length="0.15"
+                      bg-opacity="0.1"
+                      speed="0.9"
+                      color="white"
+                    ></l-squircle>
+                  ) : (
+                    "Sign in"
+                  )}
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don’t have an account yet?{" "}
@@ -183,7 +192,6 @@ function Login() {
           </div>
         </div>
       </section>
-      <button onClick={fetchUserData}>try</button>
     </>
   );
 }

@@ -13,6 +13,7 @@ import Layout from "./Layout.jsx";
 import Checkout from "./components/Checkout.jsx";
 import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
+import ConfirmEmail from "./components/ConfirmEmail.jsx";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,8 @@ const router = createBrowserRouter([
       { index: true, element: <App /> },
       { path: "error", element: <ErrorPage /> },
       { path: "login", element: <Login /> },
-      {path: "signup" , element: <Signup />},
+      { path: "signup", element: <Signup /> },
+      { path: "confirm-email", element: <ConfirmEmail /> },
       { path: "products/:productId", element: <ProductPage /> },
       { path: "products", element: <Products /> },
       { path: "checkout", element: <Checkout /> },

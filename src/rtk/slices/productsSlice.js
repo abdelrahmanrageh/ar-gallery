@@ -22,7 +22,10 @@ export const fetchProduct = createAsyncThunk(
 );
 
 export const productsSlice = createSlice({
-  initialState: { products: [], loading: true, searchValue: "" },
+  initialState: {
+    products: []
+    , loading: true, searchValue: ""
+  },
   name: "products",
   reducers: {
     setSearchValue: (state, action) => {

@@ -9,13 +9,13 @@ function Product({ product }) {
       {/* {notification && <div className="notification">Added to cart</div>}   */}
       <div className=" relative bg-white dark:bg-gray-800 flex snap-center min-w-52 max-w-52 fxs:min-w-full shadow-sm rounded-md flex-col m-2 transition-all dark:text-teal-50  ring-slate-100 dark:border-slate-800 ring-2 dark:ring-slate-700 fxs:flex-row ">
         <Link
-          className="h-56 fs:h-44 bg-white  flex items-center rounded-t-md fxs:rounded-l-md fxs:rounded-r-none fxs:w-1/2"
+          className="h-52 fs:h-44 bg-white  flex items-center rounded-t-md fxs:rounded-l-md fxs:rounded-r-none fxs:w-1/2"
           to={`/products/${product._id}`}
         >
           <img
             src={product.images[0]}
             alt=""
-            className="product-img my-0 h-full  mx-auto  rounded-t-md fxs:rounded-l-md fxs:rounded-r-none"
+            className="product-img my-0 h-full w-full rounded-t-md fxs:rounded-l-md fxs:rounded-r-none"
           />
         </Link>
         <div className="flex flex-col justify-center fxs:min-w-1/2 fxs:mx-auto">
