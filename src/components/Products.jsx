@@ -19,7 +19,7 @@ function Products({ filter, sectionName }) {
       return products;
     }
     return filterProducts(searchValue);
-  });
+  },[searchValue, products]);
 
   function filterProducts(searchValue) {
     return products.filter(

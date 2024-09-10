@@ -17,6 +17,10 @@ function Login() {
   const params = new URLSearchParams(window.location.search);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (loggedIn) {
     dispatch(authLogin()); // Call the async action
   }

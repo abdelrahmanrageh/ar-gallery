@@ -7,7 +7,7 @@ function Product({ product }) {
   return (
     <>
       {/* {notification && <div className="notification">Added to cart</div>}   */}
-      <div className=" relative bg-white dark:bg-gray-800 flex snap-center min-w-52 max-w-52 fxs:min-w-full shadow-sm rounded-md flex-col m-2 transition-all dark:text-teal-50  ring-slate-100 dark:border-slate-800 ring-2 dark:ring-slate-700 fxs:flex-row ">
+      <div className=" relative bg-white dark:bg-gray-800 flex snap-center min-w-52 max-w-52 fxs:min-w-full shadow-sm rounded-md flex-col m-2 transition-all dark:text-teal-50  ring-slate-200 dark:border-slate-800 ring-1 dark:ring-slate-700 fxs:flex-row ">
         <Link
           className="h-52 fs:h-44 bg-white  flex items-center rounded-t-md fxs:rounded-l-md fxs:rounded-r-none fxs:w-1/2"
           to={`/products/${product._id}`}
@@ -48,7 +48,7 @@ function Product({ product }) {
               dispatch(addTocart(product));
               // pushNotification();
             }}
-            className="add-to-cart rounded-md text-sm py-2 mt-2 fxs:mb-0 fxs:mx-3 mb-5 text-slate-600 ring-2 ring-slate-100 mx-5 hover:ring-sky-500 hover:shadow-md dark:border-none dark:text-teal-50 dark:ring-slate-600 fs:text-sm "
+            className="add-to-cart rounded-md text-sm py-2 mt-2 fxs:mb-0 fxs:mx-3 mb-5 text-slate-600 ring-1 ring-slate-200 mx-5 hover:ring-sky-500 hover:shadow-md dark:border-none dark:text-teal-50 dark:ring-slate-700 fs:text-sm "
           >
             Add to cart
           </button>

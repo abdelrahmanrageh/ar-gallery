@@ -6,13 +6,14 @@ import {
   changeQuantity,
   clearCart,
   removeFromCart,
+  toggleSuccess,
 } from "../rtk/slices/shoppingCartSlice";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { authLogin } from "../rtk/slices/userSlice";
 import axios from "axios";
-import SuccessAlert from "./SuccessAlert";
 import cartImage from "../assets/cart.webp";
+import SuccessAlert from "./SuccessAlert";
 
 // const deliveryMethods = [
 //   {
@@ -45,6 +46,10 @@ export default function Checkout() {
   const products = Object.values(
     useSelector((state) => state.shoppingCart.cart)
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     if (!loggedIn) {
@@ -86,6 +91,7 @@ export default function Checkout() {
 
   const addOrder = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const fullAddress = `${e.target.address.value},\n ${e.target.city.value}, ${e.target.region.value}, ${e.target.country.value}, ${e.target["postal-code"].value}`;
     const res = await axios.post(
       "https://ar-backend-0833.onrender.com/orders/new",
@@ -103,12 +109,16 @@ export default function Checkout() {
     );
     if (res.status === 200) {
       dispatch(clearCart());
+      dispatch(toggleSuccess())
+      navigate("/");
     }
+    setLoading(false);
   };
 
   return (
     <div className=" mt-20">
-      <SuccessAlert message="Your order has been placed successfully" />
+
+      
       <main className="max-w-7xl mx-auto pt-16 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto lg:max-w-none">
           <h1 className="sr-only">Checkout</h1>
@@ -601,12 +611,26 @@ export default function Checkout() {
                 </dl>
 
                 <div className="border-t border-gray-200 py-6 px-4 sm:px-6 dark:border-gray-500">
-                  <button
-                    type="submit"
-                    className="w-full bg-sky-500 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
-                  >
-                    Confirm order
-                  </button>
+                <button
+                type="submit"
+                disabled={loading}
+                className="w-full text-white bg-sky-500 hover:bg-sky-400 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-sky-800"
+              >
+                {loading ? (
+                    <l-squircle
+                      size="25"
+                      stroke="3"
+                      stroke-length="0.15"
+                      bg-opacity="0.1"
+                      speed="0.9"
+                      color="white"
+                    ></l-squircle>
+                  ) : (
+                    "  Confirm order"
+                  )}
+               
+              </button>
+               
                 </div>
               </div>
             </div>

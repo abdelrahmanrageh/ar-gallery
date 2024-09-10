@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import { setLoggedIn, setUser } from "../rtk/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { squircle } from "ldrs";
@@ -15,6 +15,11 @@ function Signup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // const [loggedIn, setLoggedIn] = useState(false);
   
   // useEffect(() => {
@@ -214,7 +219,7 @@ function Signup() {
                 type="button"
                 disabled={loading}
                 onClick={handleSubmit}
-                className="w-full text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-sky-800"
+                className="w-full text-white bg-sky-500 hover:bg-sky-400 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-sky-800"
               >
                 {loading ? (
                     <l-squircle
